@@ -1,0 +1,77 @@
+ext {
+    koinAndroidArchVersion = '0.9.2-alpha-5'
+    koinVersion = '2.1.6'
+    navVersion = '2.3.4'
+    roomVersion = "2.2.6"
+    kotlinVersion = "1.4.31"
+    lifecycleVersion = "2.3.0"
+    retrofitVersion = '2.9.0'
+    coroutinesVersion = '1.4.3'
+    jupiterVersion = '5.7.1'
+    mockkVersion = '1.11.0'
+    dependencies = [
+
+            kotlinLib            : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+            androidXCore         : "androidx.core:core-ktx:1.3.2",
+            androidXCompat       : "androidx.appcompat:appcompat:1.2.0",
+            androidMaterial      : "com.google.android.material:material:1.3.0",
+
+            constraintLayout     : "androidx.constraintlayout:constraintlayout:2.0.4",
+
+            // Koin
+            koinScope            : "org.koin:koin-androidx-scope:$koinVersion",
+            koinAndroid          : "org.koin:koin-android:$koinVersion",
+            koinCore             : "org.koin:koin-core-ext:$koinVersion",
+            koinAndroidArch      : "org.koin:koin-android-architecture:$koinAndroidArchVersion",
+            koinViewModel        : "org.koin:koin-androidx-viewmodel:$koinVersion",
+            koinTest             : "org.koin:koin-test:$koinVersion",
+            ktor                 : "org.koin:koin-ktor:$koinVersion",
+
+            // Mapbox
+            mapboxSDK            : "com.mapbox.mapboxsdk:mapbox-android-sdk:9.6.1",
+            mapboxAnnotations    : "com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0",
+
+            // Livedata
+            viewModel            : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
+            liveData             : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
+
+            // Navigation
+            navigationUI         : "androidx.navigation:navigation-ui-ktx:$navVersion",
+            navigationFragment   : "androidx.navigation:navigation-fragment-ktx:$navVersion",
+            navigationTesting    : "androidx.navigation:navigation-testing:$navVersion",
+
+            // Room
+            roomRuntime          : "androidx.room:room-runtime:$roomVersion",
+            roomCompiler         : "androidx.room:room-compiler:$roomVersion",
+            roomKtx              : "androidx.room:room-ktx:$roomVersion",
+            roomTesting          : "androidx.room:room-testing:$roomVersion",
+
+            // Retrofit
+            retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            gson                 : "com.google.code.gson:gson:2.8.6",
+            gsonConverter        : "com.squareup.retrofit2:converter-gson:2.9.0",
+            retrofitInterceptor  : "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2",
+
+            // Firebase
+            firebaseUI           : "com.firebaseui:firebase-ui-auth:6.4.0",
+            firebaseBOM          : "com.google.firebase:firebase-bom:26.7.0",
+            firebaseAuth         : "com.google.firebase:firebase-auth-ktx",
+            firebaseFirestore    : "com.google.firebase:firebase-firestore-ktx",
+
+            // Coroutines
+            coroutineCore        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+            coroutineAndroid     : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
+            coroutinePlayServices: "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesVersion",
+            coroutinesTest                   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion",
+
+            // Test
+            espresso             : "androidx.test.espresso:espresso-core:3.3.0",
+            junitExt             : "androidx.test.ext:junit:1.1.2",
+            junit                : "junit:junit:4.13.2",
+            jupiter              : "org.junit.jupiter:junit-jupiter-api:$jupiterVersion",
+            jupiterEngine        : "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion",
+            jupiterParams        : "org.junit.jupiter:junit-jupiter-params:$jupiterVersion",
+            mockk                : "io.mockk:mockk:$mockkVersion",
+
+    ]
+}

@@ -1,0 +1,100 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+apply from: '../dependencies.gradle'
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        applicationId "com.ot.playground.techtest"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+    configurations.all {
+        resolutionStrategy {
+            force("org.antlr:antlr4-runtime:4.7.1")
+            force("org.antlr:antlr4-tool:4.7.1")
+        }
+    }
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    Map<String, String> dependencies = rootProject.ext.dependencies
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation dependencies.kotlinLib
+    implementation dependencies.coroutineAndroid
+
+    implementation dependencies.androidXCore
+    implementation dependencies.androidXCompat
+    implementation dependencies.androidMaterial
+    implementation dependencies.constraintLayout
+
+    // Retrofit
+    implementation dependencies.retrofit
+    implementation dependencies.retrofitInterceptor
+    implementation dependencies.gsonConverter
+
+    // Coroutines
+    implementation dependencies.coroutineCore
+    implementation dependencies.coroutineAndroid
+
+    // Koin
+    implementation dependencies.koinAndroid
+    implementation dependencies.koinCore
+    implementation dependencies.koinScope
+    implementation dependencies.koinViewModel
+
+    // Navigation
+    implementation dependencies.navigationUI
+    implementation dependencies.navigationFragment
+
+    // Test
+    testImplementation dependencies.junit
+    androidTestImplementation dependencies.junitExt
+    testImplementation dependencies.jupiter
+    testRuntimeOnly dependencies.jupiterEngine
+    testImplementation dependencies.mockk
+    testImplementation dependencies.coroutinesTest
+    androidTestImplementation dependencies.espresso
+    androidTestImplementation dependencies.navigationTesting
+
+
+}

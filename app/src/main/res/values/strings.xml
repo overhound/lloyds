@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Techtest</string>
+    <string name="watchers">%1$d\nwatchers</string>
+    <string name="stars">%1$d\nstars</string>
+    <string name="issues">%1$d\nissues</string>
+    <string name="error">Something went wrong.</string>
+    <string name="description">Description</string>
+</resources>
