@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.navigation.fragment.navArgs
 import com.ot.playground.techtest.R
 import com.ot.playground.techtest.databinding.FragmentDetailBinding
+import com.ot.playground.techtest.utils.coroutines.runInLifecycle
 import com.ot.playground.techtest.view.adapter.TopicsAdapter
 import com.ot.playground.techtest.viewmodel.DetailViewModel
 import com.ot.playground.techtest.viewmodel.DetailViewModel.ViewEvent
@@ -30,33 +32,34 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        showRepoInfo()
-    }
-
     private fun initObservers() {
-        viewModel.viewEvent.observe(viewLifecycleOwner) { event ->
-            Log.d(this::class.java.simpleName, "viewEvent: $event")
-            when (event) {
-                ViewEvent.Error -> Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
-            }
+        viewLifecycleOwner.runInLifecycle(STARTED) {
+            viewModel.viewState.collect { state ->
+                Log.d(this::class.simpleName, "$state")
+                adapter.submitList(state.githubRepo.topics)
+                binding.name.text = state.githubRepo.name
+                binding.description.text = state.githubRepo.description
+                with(requireContext()) {
+                    binding.issues.text = getString(R.string.issues, state.githubRepo.openIssuesCount)
+                    binding.stars.text = getString(R.string.stars, state.githubRepo.stargazersCount)
+                    binding.watchers.text = getString(R.string.watchers, state.githubRepo.watchersCount)
+                }
 
-        }
-
-
-        viewModel.viewState.observe(viewLifecycleOwner) { state ->
-            Log.d(this::class.simpleName, "$state")
-            adapter.submitList(state.githubRepo.topics)
-            binding.name.text = state.githubRepo.name
-            binding.description.text = state.githubRepo.description
-            with(requireContext()) {
-                binding.issues.text = getString(R.string.issues, state.githubRepo.openIssuesCount)
-                binding.stars.text = getString(R.string.stars, state.githubRepo.stargazersCount)
-                binding.watchers.text = getString(R.string.watchers, state.githubRepo.watchersCount)
+                with(state.viewEvent) {
+                    when (this) {
+                        is ViewEvent.Initial -> {
+                            viewModel.showRepoInfo(fragmentArgs.repoName, fragmentArgs.repoOwner)
+                        }
+                        is ViewEvent.Error -> {
+                            Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
+                            viewModel.errorMessageShown()
+                        }
+                        is ViewEvent.None -> {
+                            // Nothing required.
+                        }
+                    }
+                }
             }
         }
     }
-
-    private fun showRepoInfo() = viewModel.showRepoInfo(fragmentArgs.repoName, fragmentArgs.repoOwner)
 }

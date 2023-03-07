@@ -16,11 +16,9 @@
             app:popUpTo="@id/feedFragment">
             <argument
                 android:name="repo_name"
-                android:defaultValue=""
                 app:argType="string" />
             <argument
                 android:name="repo_owner"
-                android:defaultValue=""
                 app:argType="string" />
         </action>
 
@@ -32,11 +30,9 @@
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="repo_name"
-            android:defaultValue=""
             app:argType="string" />
         <argument
             android:name="repo_owner"
-            android:defaultValue=""
             app:argType="string" />
     </fragment>
 </navigation>

@@ -7,5 +7,5 @@ class ApplicationDispatcherProvider : DispatcherProvider {
 
     override fun ui() = Dispatchers.Main
 
-    override fun computation() = Dispatchers.Default
+    override fun default() = Dispatchers.Default
 }

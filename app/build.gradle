@@ -1,21 +1,22 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android'
 }
-apply from: '../dependencies.gradle'
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.ot.playground.techtest"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
-
+        buildConfigField("String", "ACCESS_TOKEN", ACCESS_TOKEN)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
@@ -29,12 +30,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
+
     buildFeatures {
         dataBinding true
         viewBinding true
@@ -46,16 +50,27 @@ android {
         }
     }
     testOptions {
-        unitTests.all {
-            useJUnitPlatform()
+        unitTests {
+            all {
+                useJUnitPlatform()
+            }
+            returnDefaultValues true
+            includeAndroidResources = true
         }
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
+//    testOptions {
+//    }
+}
+tasks.withType(Test) {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
     }
 }
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     Map<String, String> dependencies = rootProject.ext.dependencies
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -66,6 +81,8 @@ dependencies {
     implementation dependencies.androidXCompat
     implementation dependencies.androidMaterial
     implementation dependencies.constraintLayout
+    implementation dependencies.viewModel
+    implementation dependencies.liveData
 
     // Retrofit
     implementation dependencies.retrofit
@@ -79,22 +96,25 @@ dependencies {
     // Koin
     implementation dependencies.koinAndroid
     implementation dependencies.koinCore
-    implementation dependencies.koinScope
-    implementation dependencies.koinViewModel
 
     // Navigation
     implementation dependencies.navigationUI
     implementation dependencies.navigationFragment
 
     // Test
+    testImplementation dependencies.jsonTest
+    testImplementation dependencies.androidCoreTest
     testImplementation dependencies.junit
+    testImplementation dependencies.kotlinTest
     androidTestImplementation dependencies.junitExt
     testImplementation dependencies.jupiter
     testRuntimeOnly dependencies.jupiterEngine
     testImplementation dependencies.mockk
-    testImplementation dependencies.coroutinesTest
+    testImplementation (dependencies.coroutinesTest){
+        // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
     androidTestImplementation dependencies.espresso
     androidTestImplementation dependencies.navigationTesting
-
 
 }
